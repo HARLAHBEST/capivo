@@ -24,18 +24,18 @@ export function LanguageSelector() {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--line)] bg-white hover:bg-[var(--paper-deep)] transition text-xs font-semibold text-[var(--ink)] shadow-xs"
+        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-[var(--line)] bg-white hover:bg-[var(--paper-deep)] transition text-xs font-semibold text-[var(--ink)] shadow-xs min-w-0"
         title="Select Language"
       >
-        <Globe className="w-3.5 h-3.5 text-[var(--ochre)]" />
-        <span className="hidden sm:inline">{languages[language].name}</span>
-        <span className="text-[11px] opacity-75 font-mono">
+        <Globe className="w-3.5 h-3.5 text-[var(--ochre)] flex-shrink-0" />
+        <span className="hidden sm:inline truncate">{languages[language].name}</span>
+        <span className="text-[11px] opacity-75 font-mono flex-shrink-0">
           {language.toUpperCase()}
         </span>
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-full mt-2 w-56 rounded-xl border border-[var(--line)] bg-white shadow-xl z-50 overflow-hidden py-1 animate-in fade-in zoom-in-95 duration-150">
+        <div className="absolute left-0 sm:left-auto sm:right-0 top-full mt-2 w-[min(14rem,calc(100vw-1rem))] rounded-xl border border-[var(--line)] bg-white shadow-xl z-50 overflow-hidden py-1 animate-in fade-in zoom-in-95 duration-150">
           <div className="px-3 py-2 border-b border-[var(--line)] text-[11px] font-semibold text-[var(--ink-soft)] uppercase tracking-wider">
             Choose Preferred Language
           </div>

@@ -125,7 +125,9 @@ export function Topbar({ onToggleSidebar }: { onToggleSidebar: () => void }) {
         <LanguageSelector />
 
         {/* Voice AI Mic */}
-        <VoiceMicButton variant="topbar" />
+        <div className="hidden sm:flex">
+          <VoiceMicButton variant="topbar" />
+        </div>
 
         {/* Notification Bell & Dropdown */}
         <div className="relative" ref={notifRef}>
@@ -169,7 +171,7 @@ export function Topbar({ onToggleSidebar }: { onToggleSidebar: () => void }) {
         </div>
 
         {/* New Entry Button */}
-        <button className="btn-primary" onClick={() => openDrawer("stock")}>
+        <button className="btn-primary px-3 py-2 sm:px-4" onClick={() => openDrawer("stock")}>
           <Plus className="w-4 h-4" />
           <span className="hidden sm:inline">{t("newEntry")}</span>
         </button>
