@@ -33,7 +33,7 @@ export function VoiceMicButton({ variant = "topbar" }: { variant?: "topbar" | "f
     <div className="flex items-center gap-1.5">
       <button
         onClick={toggleListening}
-        className={`icon-btn transition ${
+        className={`icon-btn voice-mic-btn transition ${
           isListening
             ? "bg-[var(--terracotta)] text-white border-[var(--terracotta)] voice-pulse"
             : "text-[var(--indigo-900)] hover:text-[var(--ochre)]"

@@ -2,17 +2,20 @@
 
 import React, { useState } from "react";
 import { useAppState } from "../../context/AppStateContext";
+import { useAuth } from "../../context/AuthContext";
 import { useLanguage } from "../../context/LanguageContext";
 import { X } from "lucide-react";
 
 export function CreateUserModal() {
   const { isUserModalOpen, closeUserModal, showToast, addAuditLog } = useAppState();
   const { t } = useLanguage();
+  const { createManagedUser } = useAuth();
 
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [branch, setBranch] = useState("Surulere");
+  const [generatedCredentials, setGeneratedCredentials] = useState<{ email: string; password: string } | null>(null);
 
   const [permissions, setPermissions] = useState({
     stockPurchase: true,
@@ -33,9 +36,28 @@ export function CreateUserModal() {
       return;
     }
 
+    const targetEmail = email.trim() || `${fullName.toLowerCase().replace(/\s+/g, ".")}@capivo.ng`;
+
+    const result = createManagedUser({
+      name: fullName,
+      email: targetEmail,
+      password: `${fullName.toLowerCase().replace(/\s+/g, "")}123`,
+      businessName: "Capivo Workspace",
+      role: "worker",
+    });
+
+    if (!result.success) {
+      showToast(result.error || "Unable to create account", "warning");
+      return;
+    }
+
+    setGeneratedCredentials({
+      email: targetEmail,
+      password: result.generatedPassword || "",
+    });
+
     addAuditLog(`Branch Manager account created: ${fullName} assigned to ${branch}`);
-    showToast(t("toastInviteSent"));
-    closeUserModal();
+    showToast("Branch manager account created successfully", "success");
   };
 
   return (
@@ -50,6 +72,21 @@ export function CreateUserModal() {
         </div>
 
         <div className="drawer-body space-y-4">
+          {generatedCredentials && (
+            <div className="insight-box" style={{ borderLeftColor: "var(--green)", background: "var(--green-soft)" }}>
+              <div className="k">Login details ready</div>
+              <p className="text-xs mt-1">
+                Email: <strong>{generatedCredentials.email}</strong>
+              </p>
+              <p className="text-xs mt-1">
+                Password: <strong>{generatedCredentials.password}</strong>
+              </p>
+              <p className="text-xs mt-2 text-[var(--ink-soft)]">
+                Share these credentials with the branch manager so they can sign in.
+              </p>
+            </div>
+          )}
+
           <div className="form-group">
             <label>Full Name</label>
             <input
@@ -184,7 +221,7 @@ export function CreateUserModal() {
             {t("cancel")}
           </button>
           <button className="btn-primary flex-1 justify-center" onClick={handleSendInvite}>
-            Send Invite Link
+            Create Manager Account
           </button>
         </div>
       </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { Language } from "../types";
 import { translations, TranslationKey, languageMeta } from "../locales";
 
@@ -14,14 +14,22 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguageState] = useState<Language>(() => {
+  const [language, setLanguageState] = useState<Language>("en");
+
+  useEffect(() => {
     if (typeof window === "undefined") {
-      return "en";
+      return;
     }
 
-    const saved = localStorage.getItem("capivo_preferred_lang") as Language;
-    return saved && translations[saved] ? saved : "en";
-  });
+    const handle = window.requestAnimationFrame(() => {
+      const saved = localStorage.getItem("capivo_preferred_lang") as Language;
+      if (saved && translations[saved]) {
+        setLanguageState(saved);
+      }
+    });
+
+    return () => window.cancelAnimationFrame(handle);
+  }, []);
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);

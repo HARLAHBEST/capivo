@@ -68,14 +68,12 @@ export default function Page() {
     }
   }, [currentUser, setUserRole]);
 
-  const pathname = typeof window !== "undefined" ? window.location.pathname : "";
-
   // Redirect to login if not authenticated and not on signup page
   useEffect(() => {
-    if (!isLoading && !isAuthenticated && pathname !== "/signup") {
+    if (!isLoading && !isAuthenticated) {
       router.push("/login");
     }
-  }, [isLoading, isAuthenticated, pathname, router]);
+  }, [isLoading, isAuthenticated, router]);
 
   // Show nothing while checking auth (avoid flash)
   if (isLoading || !isAuthenticated) {

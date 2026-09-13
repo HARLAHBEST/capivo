@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { UserRole } from "../types";
 
 export interface AuthUser {
@@ -19,6 +19,12 @@ interface AuthContextType {
   isLoading: boolean;
   login: (email: string, password: string) => { success: boolean; error?: string };
   register: (data: RegisterData) => { success: boolean; error?: string };
+  createManagedUser: (data: RegisterData & { password?: string }) => {
+    success: boolean;
+    error?: string;
+    generatedPassword?: string;
+    user?: AuthUser;
+  };
   logout: () => void;
 }
 
@@ -99,33 +105,43 @@ function getAllUsers(): (AuthUser & { password: string })[] {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [currentUser, setCurrentUser] = useState<AuthUser | null>(() => {
+  const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
     if (typeof window === "undefined") {
-      return null;
+      return;
     }
 
-    try {
-      const stored = localStorage.getItem(SESSION_KEY);
-      if (!stored) {
-        return null;
-      }
+    const handle = window.requestAnimationFrame(() => {
+      try {
+        const stored = localStorage.getItem(SESSION_KEY);
+        if (!stored) {
+          setCurrentUser(null);
+          setIsLoading(false);
+          return;
+        }
 
-      const user = JSON.parse(stored) as AuthUser;
-      const all = getAllUsers();
-      const valid = all.find((u) => u.id === user.id);
+        const user = JSON.parse(stored) as AuthUser;
+        const all = getAllUsers();
+        const valid = all.find((u) => u.id === user.id);
 
-      if (!valid) {
+        if (!valid) {
+          localStorage.removeItem(SESSION_KEY);
+          setCurrentUser(null);
+        } else {
+          setCurrentUser(user);
+        }
+      } catch {
         localStorage.removeItem(SESSION_KEY);
-        return null;
+        setCurrentUser(null);
+      } finally {
+        setIsLoading(false);
       }
+    });
 
-      return user;
-    } catch {
-      localStorage.removeItem(SESSION_KEY);
-      return null;
-    }
-  });
-  const [isLoading] = useState(false);
+    return () => window.cancelAnimationFrame(handle);
+  }, []);
 
   const login = (email: string, password: string): { success: boolean; error?: string } => {
     const all = getAllUsers();
@@ -142,6 +158,59 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setCurrentUser(user);
     localStorage.setItem(SESSION_KEY, JSON.stringify(user));
     return { success: true };
+  };
+
+  const createManagedUser = (
+    data: RegisterData & { password?: string }
+  ): { success: boolean; error?: string; generatedPassword?: string; user?: AuthUser } => {
+    const { name, email, businessName, role, password } = data;
+
+    if (!name.trim() || name.trim().length < 2) {
+      return { success: false, error: "Name must be at least 2 characters." };
+    }
+
+    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return { success: false, error: "Please enter a valid email address." };
+    }
+
+    if (!businessName.trim()) {
+      return { success: false, error: "Please enter your business name." };
+    }
+
+    const all = getAllUsers();
+    if (all.find((u) => u.email.toLowerCase() === email.toLowerCase().trim())) {
+      return { success: false, error: "An account with this email already exists." };
+    }
+
+    const generatedPassword = password || `${Math.random().toString(36).slice(2, 8)}Capivo!`;
+
+    if (generatedPassword.length < 6) {
+      return { success: false, error: "Password must be at least 6 characters." };
+    }
+
+    const newUser: AuthUser & { password: string } = {
+      id: "u_" + Date.now(),
+      name: name.trim(),
+      email: email.toLowerCase().trim(),
+      password: generatedPassword,
+      initials: getInitials(name.trim()),
+      role,
+      roleLabel: ROLE_LABELS[role],
+      businessName: businessName.trim(),
+    };
+
+    const registered = loadRegisteredUsers();
+    registered.push(newUser);
+    localStorage.setItem(REGISTERED_USERS_KEY, JSON.stringify(registered));
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password: _pwd, ...userWithoutPwd } = newUser;
+
+    return {
+      success: true,
+      generatedPassword,
+      user: userWithoutPwd,
+    };
   };
 
   const register = (data: RegisterData): { success: boolean; error?: string } => {
@@ -206,6 +275,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         isLoading,
         login,
         register,
+        createManagedUser,
         logout,
       }}
     >

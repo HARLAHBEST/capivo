@@ -378,6 +378,20 @@ input, select, textarea {
   transform: scale(0.96);
 }
 
+.voice-mic-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+}
+
+@media (max-width: 640px) {
+  .voice-mic-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+  }
+}
+
 .dot-badge {
   position: absolute;
   top: 6px;
@@ -1846,6 +1860,52 @@ input, select, textarea {
   font-weight: 500;
 }
 
+.signup-benefit-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.signup-benefit-item {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.signup-benefit-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ochre-soft);
+  margin-bottom: 3px;
+}
+
+.signup-benefit-copy {
+  color: #B7BED1;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.signup-inline-hint,
+.signup-inline-error {
+  margin-top: 6px;
+  font-size: 11px;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.signup-inline-hint {
+  color: var(--ink-soft);
+}
+
+.signup-inline-error {
+  color: var(--terracotta);
+}
+
 /* Submit button */
 .login-submit-btn {
   width: 100%;
@@ -1898,6 +1958,9 @@ input, select, textarea {
   }
   .login-form-panel {
     padding: 32px 24px;
+  }
+  .signup-benefit-grid {
+    margin-top: 18px;
   }
 }
 

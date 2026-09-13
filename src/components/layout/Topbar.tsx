@@ -125,7 +125,7 @@ export function Topbar({ onToggleSidebar }: { onToggleSidebar: () => void }) {
         <LanguageSelector />
 
         {/* Voice AI Mic */}
-        <div className="hidden sm:flex">
+        <div className="flex">
           <VoiceMicButton variant="topbar" />
         </div>
 
