@@ -3,10 +3,10 @@
 import React, { useState } from "react";
 import { useAppState } from "../../context/AppStateContext";
 import { useLanguage } from "../../context/LanguageContext";
-import { X, UserPlus, Shield } from "lucide-react";
+import { X } from "lucide-react";
 
 export function CreateUserModal() {
-  const { isUserModalOpen, closeUserModal, branches, showToast, addAuditLog } = useAppState();
+  const { isUserModalOpen, closeUserModal, showToast, addAuditLog } = useAppState();
   const { t } = useLanguage();
 
   const [fullName, setFullName] = useState("");

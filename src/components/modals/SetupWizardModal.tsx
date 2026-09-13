@@ -2,13 +2,11 @@
 
 import React, { useState } from "react";
 import { useAppState } from "../../context/AppStateContext";
-import { useLanguage } from "../../context/LanguageContext";
-import { X, ShoppingBag, Package, Store, Layers, Check } from "lucide-react";
+import { X, ShoppingBag, Package, Store, Layers } from "lucide-react";
 import confetti from "canvas-confetti";
 
 export function SetupWizardModal() {
   const { isWizardOpen, closeWizard, setBusinessMode, showToast } = useAppState();
-  const { t } = useLanguage();
 
   const [step, setStep] = useState(1);
   const [bizType, setBizType] = useState<"shop" | "store">("store");

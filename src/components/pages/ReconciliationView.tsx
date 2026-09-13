@@ -3,7 +3,7 @@
 import React from "react";
 import { useAppState } from "../../context/AppStateContext";
 import { useLanguage } from "../../context/LanguageContext";
-import { Lock, Check, TrendingUp, TrendingDown, Scale } from "lucide-react";
+import { Lock } from "lucide-react";
 
 export function ReconciliationView() {
   const { isMonthLocked, lockCurrentMonth, branches } = useAppState();

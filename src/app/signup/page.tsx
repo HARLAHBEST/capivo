@@ -3,7 +3,7 @@
 import React, { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../context/AuthContext";
-import { Eye, EyeOff, ArrowRight, User, Building2 } from "lucide-react";
+import { Eye, EyeOff, ArrowRight, User } from "lucide-react";
 
 // Simple role options for demo purposes
 const ROLE_OPTIONS = [

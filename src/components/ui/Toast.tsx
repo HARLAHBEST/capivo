@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useAppState } from "../../context/AppStateContext";
 import { CheckCircle, AlertTriangle, X } from "lucide-react";
 

@@ -13,8 +13,6 @@ import {
   Truck,
   AlertTriangle,
   Building2,
-  FileCheck,
-  ArrowRight,
   ShieldCheck,
   Package,
 } from "lucide-react";

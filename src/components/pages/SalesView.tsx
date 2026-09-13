@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useAppState } from "../../context/AppStateContext";
 import { useLanguage } from "../../context/LanguageContext";
-import { Plus, ShoppingBag, CreditCard, Banknote, Calendar } from "lucide-react";
+import { Plus } from "lucide-react";
 
 export function SalesView() {
   const { sales, openDrawer, branches } = useAppState();

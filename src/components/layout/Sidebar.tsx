@@ -35,7 +35,6 @@ export function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
   const userRole = currentUser?.role ?? "owner";
   const isStore = businessMode === "store";
   const isOwner = userRole === "owner";
-  const isWorker = userRole === "worker";
   const isAudit = userRole === "lissafiTeam";
 
   const activeAlertCount = alerts.filter(

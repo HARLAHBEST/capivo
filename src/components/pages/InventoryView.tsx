@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useAppState } from "../../context/AppStateContext";
 import { useLanguage } from "../../context/LanguageContext";
-import { Plus, Search, Filter, Package } from "lucide-react";
+import { Plus, Package } from "lucide-react";
 
 export function InventoryView() {
   const { products, openDrawer, branches } = useAppState();
@@ -12,19 +12,11 @@ export function InventoryView() {
   const [selectedFilter, setSelectedFilter] = useState<"all" | "instock" | "lowstock" | "outstock">("all");
   const [selectedBranch, setSelectedBranch] = useState("All Branches");
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
-  const [searchQuery, setSearchQuery] = useState("");
 
   const filteredProducts = products.filter((prod) => {
     if (selectedFilter !== "all" && prod.status !== selectedFilter) return false;
     if (selectedBranch !== "All Branches" && prod.branch !== selectedBranch) return false;
     if (selectedCategory !== "All Categories" && prod.category !== selectedCategory) return false;
-    if (
-      searchQuery &&
-      !prod.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-      !prod.sku.toLowerCase().includes(searchQuery.toLowerCase())
-    ) {
-      return false;
-    }
     return true;
   });
 

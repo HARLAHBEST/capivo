@@ -3,8 +3,7 @@
 import React, { useState } from "react";
 import { useAppState } from "../../context/AppStateContext";
 import { useLanguage } from "../../context/LanguageContext";
-import { DrawerTabId } from "../../types";
-import { X, Upload, Camera } from "lucide-react";
+import { X, Camera } from "lucide-react";
 
 export function QuickAddDrawer() {
   const {

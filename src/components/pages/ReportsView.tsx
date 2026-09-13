@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { useLanguage } from "../../context/LanguageContext";
 import { useAppState } from "../../context/AppStateContext";
 import {
   ShoppingBag,
@@ -14,12 +13,10 @@ import {
   Activity,
   Layers,
   Download,
-  FileSpreadsheet,
   CheckCircle,
 } from "lucide-react";
 
 export function ReportsView() {
-  const { t } = useLanguage();
   const { showToast } = useAppState();
   const [generatingReport, setGeneratingReport] = useState<string | null>(null);
 

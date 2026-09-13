@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useAppState } from "../../context/AppStateContext";
 import { useLanguage } from "../../context/LanguageContext";
-import { X, Check, AlertTriangle, FileText, Sparkles } from "lucide-react";
+import { X, AlertTriangle, FileText, Sparkles } from "lucide-react";
 
 export function OCRReviewModal() {
   const { isOcrModalOpen, closeOcrModal, addReceipt, showToast } = useAppState();

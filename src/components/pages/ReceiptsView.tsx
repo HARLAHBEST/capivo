@@ -2,12 +2,10 @@
 
 import React, { useState } from "react";
 import { useAppState } from "../../context/AppStateContext";
-import { useLanguage } from "../../context/LanguageContext";
 import { Plus, FileText, Camera } from "lucide-react";
 
 export function ReceiptsView() {
   const { receipts, openDrawer, openOcrModal, branches } = useAppState();
-  const { t } = useLanguage();
 
   const [typeFilter, setTypeFilter] = useState<"All" | "Purchase" | "Expense">("All");
   const [branchFilter, setBranchFilter] = useState("All Branches");

@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useAppState } from "../../context/AppStateContext";
 import { useLanguage } from "../../context/LanguageContext";
-import { UserPlus, Plus, ShieldCheck, MapPin, Building2, User } from "lucide-react";
+import { UserPlus, Plus, MapPin, User } from "lucide-react";
 
 export function UsersView() {
   const { openUserModal, branches, setCurrentPage, setUserRole, setSelectedBranch } = useAppState();

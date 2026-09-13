@@ -3,7 +3,7 @@
 import React from "react";
 import { useVoice } from "../../context/VoiceContext";
 import { useAppState } from "../../context/AppStateContext";
-import { Mic, MicOff } from "lucide-react";
+import { Mic } from "lucide-react";
 
 export function VoiceMicButton({ variant = "topbar" }: { variant?: "topbar" | "floating" }) {
   const { isListening, toggleListening, isSupported } = useVoice();

@@ -2,12 +2,9 @@
 
 import React, { useState } from "react";
 import { useAppState } from "../../context/AppStateContext";
-import { useLanguage } from "../../context/LanguageContext";
-import { Shield, Lock, Wifi, RefreshCw } from "lucide-react";
 
 export function SecurityView() {
   const { auditLogs, branches, showToast } = useAppState();
-  const { t } = useLanguage();
 
   const [toggles, setToggles] = useState({
     twoFactor: true,

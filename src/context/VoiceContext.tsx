@@ -1,9 +1,8 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, useRef, useCallback } from "react";
+import React, { createContext, useContext, useState, useRef, useCallback, useEffect } from "react";
 import { useLanguage } from "./LanguageContext";
 import { useAppState } from "./AppStateContext";
-import { Language } from "../types";
 
 export interface VoiceLog {
   id: string;

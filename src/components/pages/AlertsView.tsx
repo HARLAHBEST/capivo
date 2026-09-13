@@ -2,11 +2,9 @@
 
 import React, { useState } from "react";
 import { useAppState } from "../../context/AppStateContext";
-import { useLanguage } from "../../context/LanguageContext";
 
 export function AlertsView() {
   const { alerts, businessMode, setCurrentPage } = useAppState();
-  const { t } = useLanguage();
 
   const [activeCategory, setActiveCategory] = useState<string>("All");
 
